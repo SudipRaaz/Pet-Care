@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text('Login'),
         centerTitle: true,
-        backgroundColor: AppColors.appBar_theme,
+        backgroundColor: AppColors().appBar_theme,
       ),
       body: ListView(children: [
         Column(

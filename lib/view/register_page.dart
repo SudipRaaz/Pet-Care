@@ -44,7 +44,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         title: const Text('Register'),
         centerTitle: true,
-        backgroundColor: AppColors.appBar_theme,
+        backgroundColor: AppColors().appBar_theme,
       ),
       body: ListView(
         children: [

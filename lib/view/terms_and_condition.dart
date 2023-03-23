@@ -12,7 +12,7 @@ class TermAndCondition extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Terms and Conditions'),
         centerTitle: true,
-        backgroundColor: AppColors.appBar_theme,
+        backgroundColor: AppColors().appBar_theme,
       ),
       body: ListView(
         children: [

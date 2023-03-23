@@ -10,4 +10,10 @@ class MyStyle {
   ButtonStyle elevatedButtonPrimary = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
       backgroundColor: const Color.fromARGB(255, 76, 99, 250));
+
+  // text style
+  TextStyle boldHeading =
+      const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+  // text style
+  TextStyle serviceTile = const TextStyle(fontSize: 20, color: Colors.white);
 }
