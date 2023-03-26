@@ -1,14 +1,6 @@
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_care/resource/constants/sized_box.dart';
-
-import '../Controller/authentication_base.dart';
-import '../Controller/authentication_functions.dart';
 import '../resource/constants/colors.dart';
 import '../resource/constants/style.dart';
-import '../utilities/InfoDisplay/message.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -36,7 +28,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Container(
                 width: _width,
                 height: _height * .3,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/promo.png'))),
               ),
@@ -47,20 +39,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: MyStyle().boldHeading,
                 ),
               ),
-              // Container(
-              //   width: _width,
-              //   height: _height,
-              //   child: GridView.builder(
-              //     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              //       maxCrossAxisExtent: 200,
-              //       childAspectRatio: 3 / 3,
-              //     ),
-              //     itemBuilder: (context, index) {
-              //       return serviceTile();
-              //     },
-              //     itemCount: 4,
-              //   ),
-              // ),
               Row(
                 children: [
                   ServiceTile(_width, Icons.medical_services_outlined,
@@ -81,12 +59,12 @@ class _DashboardPageState extends State<DashboardPage> {
         ));
   }
 
-  Padding ServiceTile(double _width, IconData icons, String text) {
+  Padding ServiceTile(double width, IconData icons, String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 6, 0, 12),
       child: Container(
-        width: _width * .45,
-        height: _width * .45,
+        width: width * .45,
+        height: width * .45,
         decoration: BoxDecoration(
             color: AppColors().service_tile_color,
             borderRadius: BorderRadius.circular(15)),

@@ -21,15 +21,18 @@ class PageLayout extends StatelessWidget {
               tabManager.goToTab(index);
             },
             fixedColor: Colors.black,
-            backgroundColor: Color.fromARGB(115, 248, 248, 248),
+            backgroundColor: const Color.fromARGB(115, 248, 248, 248),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard_rounded),
-                label: 'Dashboard',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                label: 'History',
+                icon: Icon(
+                  Icons.medication_liquid_sharp,
+                  size: 35,
+                ),
+                label: 'Medical',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
