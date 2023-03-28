@@ -17,18 +17,18 @@ class _Splash_ScreenState extends State<Splash_Screen> {
   @override
   Widget build(BuildContext context) {
     // creating a stream for auth changes to listen
-    return PageLayout();
-    // return StreamBuilder(
-    //   stream: Authentication().authStateChange,
-    //   builder: (context, snapshot) {
-    //     // if snapshot from stream has data loading dashboard page
-    //     if (snapshot.hasData) {
-    //       return const PageLayout();
-    //     } else {
-    //       // if snapshot from stream has does not have any data loading login page
-    //       return const LoginScreen();
-    //     }
-    //   },
-    // );
+    // return LoginScreen();
+    return StreamBuilder(
+      stream: Authentication().authStateChange,
+      builder: (context, snapshot) {
+        // if snapshot from stream has data loading dashboard page
+        if (snapshot.hasData) {
+          return const PageLayout();
+        } else {
+          // if snapshot from stream has does not have any data loading login page
+          return const LoginScreen();
+        }
+      },
+    );
   }
 }

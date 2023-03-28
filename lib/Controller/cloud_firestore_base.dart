@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pet_care/model/registration_model.dart';
 
 abstract class MyCloudStoreBase {
-  // // registering user data to database
-  // Future registerUser(String? uid, String name, String email, int phoneNumber);
+  // registering user data to database
+  Future registerUser(String uid, Registration registrationModel);
 
   // Future requestService(
   //     int caseID,

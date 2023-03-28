@@ -1,3 +1,4 @@
+import 'package:pet_care/firebase_options.dart';
 import 'package:pet_care/utilities/routes/route_path.dart';
 import 'package:pet_care/utilities/routes/routes.dart';
 import 'package:pet_care/view/dashboard_page.dart';
@@ -7,6 +8,11 @@ import 'package:provider/provider.dart';
 import 'model/tab_manager.dart';
 
 void main() async {
+  // initializing firebase repository
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

@@ -1,10 +1,13 @@
 import 'package:pet_care/Controller/authentication_base.dart';
 import 'package:pet_care/Controller/authentication_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_care/page_layout.dart';
+import 'package:pet_care/view/dashboard_page.dart';
 import 'package:validators/validators.dart';
 
 import '../resource/components/buttons.dart';
 import '../resource/constants/colors.dart';
+import '../resource/constants/style.dart';
 import '../utilities/InfoDisplay/message.dart';
 import '../utilities/routes/routes.dart';
 
@@ -41,6 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // setting available height and width
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+    String dropdownValue = list.first;
 
     return Scaffold(
       appBar: AppBar(
@@ -119,17 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         FocusManager.instance.primaryFocus!.unfocus();
 
                         // checking for valid email formating
-                        if (_emailController.text.isEmpty ||
+                        if (_emailController.text.isNotEmpty ||
                             isEmail(_emailController.text)) {
                           try {
                             // reset mail
-                            // AuthenticationBase auth = Authentication();
-                            // auth.passwordReset(
-                            //     context, _emailController.text.trim());
+                            AuthenticationBase auth = Authentication();
+                            auth.passwordReset(
+                                context, _emailController.text.trim());
                             // debugPrint(
                             //     "email : ${_emailController.text.trim()}");
-                            // Message.flutterToast(
-                            //     context, "Please Check your Mail box");
+                            Message.flutterToastGreen(
+                                context, "Please Check your Mail box");
                           } catch (e) {
                             // show exception message
                             Message.flutterToast(context, e.toString());
@@ -148,6 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: height * .04,
             ),
+
             // widget button
             Buttons(
               text: "Login",
@@ -163,13 +170,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       context, "Password must be at least 6 digits");
                 } else {
                   // sign in using email and password
-                  Navigator.pushNamed(context, RoutesName.pageLayout);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PageLayout()));
                   // requesting to method of auth class
-                  // AuthenticationBase auth = Authentication();
-                  // auth.signInWithEmailAndPassword(
-                  //     context,
-                  //     _emailController.text.trim(),
-                  //     _passwordController.text.trim());
+                  AuthenticationBase auth = Authentication();
+                  auth.signInWithEmailAndPassword(
+                      context,
+                      _emailController.text.trim(),
+                      _passwordController.text.trim());
                 }
               },
             ),

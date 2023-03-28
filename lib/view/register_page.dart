@@ -1,8 +1,11 @@
-import 'package:pet_care/Controller/authentication_base.dart';
-import 'package:pet_care/Controller/authentication_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_care/model/registration_model.dart';
+import 'package:pet_care/resource/constants/constant_values.dart';
+import 'package:pet_care/resource/constants/sized_box.dart';
+import 'package:pet_care/resource/constants/style.dart';
 import 'package:validators/validators.dart';
-
+import '../Controller/authentication_base.dart';
+import '../Controller/authentication_functions.dart';
 import '../resource/components/buttons.dart';
 import '../resource/constants/colors.dart';
 import '../utilities/InfoDisplay/message.dart';
@@ -20,25 +23,34 @@ class _RegisterState extends State<Register> {
 
   // text controller
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _petNameController = TextEditingController();
 
   // focusing pointer
   final FocusNode _nameFocusNode = FocusNode();
-  final FocusNode _phoneFocusNode = FocusNode();
+  final FocusNode _weightFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+  final FocusNode _petNameFocusNode = FocusNode();
 
   // initial age for registration
-  double _initialAge = 18;
+  double _initialAge = 1;
   // check box default value
   bool _checkBoxValue = false;
 
+  // drop down menu selected value
+  String petType = MyConstants().petType.first;
+  String dogBreed = MyConstants().dogBreeds.first;
+  String catBreed = MyConstants().catBreeds.first;
+  // pet gender
+  String _gender = '';
+
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -50,18 +62,6 @@ class _RegisterState extends State<Register> {
         children: [
           Column(
             children: [
-              // asset app logo display
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 30),
-                child: Container(
-                  width: width * .7,
-                  height: height * .1,
-                  // decoration: const BoxDecoration(
-                  //     image: DecorationImage(
-                  //         image: AssetImage('assets/app_logo.png')))
-                ),
-              ),
-
               // name form field
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -72,32 +72,15 @@ class _RegisterState extends State<Register> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text(
-                      "Name",
+                      "Pet Owner Name",
                     ),
                     prefixIcon: Icon(Icons.face_rounded),
                   ),
                   onFieldSubmitted: (value) =>
-                      FocusScope.of(context).requestFocus(_phoneFocusNode),
+                      FocusScope.of(context).requestFocus(_petNameFocusNode),
                 ),
               ),
 
-              // Phone Number textform field
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  focusNode: _phoneFocusNode,
-                  controller: _phoneController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    label: Text("Phone Number"),
-                    prefixIcon: Icon(Icons.call_rounded),
-                  ),
-                  // requesting for password field focus
-                  onFieldSubmitted: (value) =>
-                      FocusScope.of(context).requestFocus(_emailFocusNode),
-                ),
-              ),
               // email textform field
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -144,6 +127,172 @@ class _RegisterState extends State<Register> {
                     );
                   }),
 
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(31, 145, 144, 144),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Pet Description',
+                          style: MyStyle().heading2,
+                        ),
+
+                        // name form field
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            focusNode: _petNameFocusNode,
+                            controller: _petNameController,
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              label: Text(
+                                "Pet Name",
+                              ),
+                              prefixIcon: Icon(Icons.pets_outlined),
+                            ),
+                            onFieldSubmitted: (value) => FocusScope.of(context)
+                                .requestFocus(_weightFocusNode),
+                          ),
+                        ),
+                        // pet type field
+                        Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Pet Type : ",
+                                  style: MyStyle().subText,
+                                ),
+                                DropdownButton(
+                                  value: petType,
+                                  underline: Container(
+                                    width: 150,
+                                    height: 2,
+                                    color: AppColors().appBar_theme,
+                                  ),
+                                  items: MyConstants().petType.map((value) {
+                                    return DropdownMenuItem(
+                                        value: value, child: Text(value));
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    // This is called when the user selects an item.
+                                    if (value is String) {
+                                      setState(() {
+                                        petType = value;
+                                      });
+                                    }
+                                  },
+                                ),
+                                addHorizontalSpace(20)
+                              ],
+                            )),
+
+                        // pet breed type
+                        breedSelection(petType),
+
+                        // pet gender selection
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Pet\'s Gender : ',
+                                style: MyStyle().subText,
+                              ),
+                              Radio(
+                                value: 'Male',
+                                groupValue: _gender,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _gender = value!;
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Male',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              Radio(
+                                value: 'Female',
+                                groupValue: _gender,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _gender = value!;
+                                  });
+                                },
+                              ),
+                              const Text(
+                                'Female',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // age picker section
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                "Age",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              SizedBox(
+                                width: _width * 0.7,
+                                // age slider picker
+                                child: Slider(
+                                  value: _initialAge,
+                                  min: 1.0, // min age allowed
+                                  max: 20.0, // max age allowed
+                                  divisions: 19, // number of divisions allowed
+                                  // updating age on slider change
+                                  onChanged: (double newValue) {
+                                    setState(() {
+                                      _initialAge = newValue;
+                                    });
+                                  },
+                                  activeColor: AppColors().appBar_theme,
+                                  inactiveColor: Colors.black45,
+                                ),
+                              ),
+                              Text(
+                                _initialAge.toInt().toString(),
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                        ),
+
+                        // Weight textform field
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            focusNode: _weightFocusNode,
+                            controller: _weightController,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              label: Text("Pet's Weight"),
+                              prefixIcon: Icon(Icons.monitor_weight_outlined),
+                            ),
+                            // requesting for password field focus
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               // agreement to term and conditions
               Row(
                 children: [
@@ -163,9 +312,8 @@ class _RegisterState extends State<Register> {
                       child: const Text('Term and Conditions'))
                 ],
               ),
-              SizedBox(
-                height: height * .09,
-              ),
+              addVerticalSpace(15),
+
               Buttons(
                 text: "Register",
                 onPress: () async {
@@ -190,14 +338,24 @@ class _RegisterState extends State<Register> {
                         context, "Accept to terms and conditions to proceed");
                   } else {
                     try {
+                      Registration registerDetails = Registration(
+                          petOwnerName: _nameController.text,
+                          petName: _petNameController.text,
+                          email: _emailController.text,
+                          petType: petType,
+                          dogBreed: dogBreed,
+                          catBreed: catBreed,
+                          petGender: _gender,
+                          age: _initialAge.toInt(),
+                          petWeight: double.parse(_weightController.text));
+
                       // saving the data onto cloud firestore database
-                      // AuthenticationBase auth = Authentication();
-                      // auth.createUserWithEmailAndPassword(
-                      //     context,
-                      //     _emailController.text,
-                      //     _passwordController.text,
-                      //     _nameController.text,
-                      //     int.parse(_phoneController.text));
+                      AuthenticationBase auth = Authentication();
+                      auth.createUserWithEmailAndPassword(
+                        context,
+                        registerDetails,
+                        _passwordController.text.trim(),
+                      );
                       Navigator.pop(context);
                       // catch any exceptions occured
                     } catch (e) {
@@ -206,10 +364,86 @@ class _RegisterState extends State<Register> {
                   }
                 },
               ),
+              addVerticalSpace(15),
             ],
           ),
         ],
       ),
     );
+  }
+
+  // breed selection
+  breedSelection(String petType) {
+    switch (petType) {
+      case 'Dog':
+        return // pet type field
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Pet Breed : ",
+                      style: MyStyle().subText,
+                    ),
+                    DropdownButton(
+                      value: dogBreed,
+                      underline: Container(
+                        width: 150,
+                        height: 2,
+                        color: AppColors().appBar_theme,
+                      ),
+                      items: MyConstants().dogBreeds.map((value) {
+                        return DropdownMenuItem(
+                            value: value, child: Text(value));
+                      }).toList(),
+                      onChanged: (String? value) {
+                        // This is called when the user selects an item.
+                        if (value is String) {
+                          setState(() {
+                            dogBreed = value;
+                          });
+                        }
+                      },
+                    ),
+                    addHorizontalSpace(20)
+                  ],
+                ));
+      case 'Cat':
+        return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Pet Breed : ",
+                  style: MyStyle().subText,
+                ),
+                DropdownButton(
+                  value: catBreed,
+                  underline: Container(
+                    width: 150,
+                    height: 2,
+                    color: AppColors().appBar_theme,
+                  ),
+                  items: MyConstants().catBreeds.map((value) {
+                    return DropdownMenuItem(value: value, child: Text(value));
+                  }).toList(),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    if (value is String) {
+                      setState(() {
+                        catBreed = value;
+                      });
+                    }
+                  },
+                ),
+                addHorizontalSpace(20)
+              ],
+            ));
+
+      default:
+        return const Text('');
+    }
   }
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care/model/registration_model.dart';
 
 abstract class AuthenticationBase {
-  // Future signInWithEmailAndPassword(
-  //     BuildContext context, String email, String password);
+  Future signInWithEmailAndPassword(
+      BuildContext context, String email, String password);
 
-  // // create users with email and password
-  // Future createUserWithEmailAndPassword(BuildContext context, String email,
-  //     String password, String name, int phoneNumber);
+  // create users with email and password
+  Future createUserWithEmailAndPassword(
+      BuildContext context, Registration registrationDetails, String password);
 
-  // // signout method
-  // Future signOut();
+  // signout method
+  Future signOut();
 
-  // // password reset method
-  // passwordReset(BuildContext context, String email);
+  // password reset method
+  passwordReset(BuildContext context, String email);
 }
