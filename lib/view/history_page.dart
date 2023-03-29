@@ -15,7 +15,6 @@ import '../utilities/InfoDisplay/message.dart';
 
 class HistoryPage extends StatelessWidget {
   List appointmentLog = [];
-  // List documentID = [];
 
   HistoryPage({super.key});
 
@@ -42,7 +41,9 @@ class HistoryPage extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
           if (snapshot.hasData) {
             appointmentLog = [];
@@ -60,7 +61,21 @@ class HistoryPage extends StatelessWidget {
                   itemBuilder: (conxtext, index) {
                     Timestamp timestamp = appointmentLog[index]['Date'];
                     DateTime dateTime = timestamp.toDate();
-                    log('${appointmentLog[index]['id']}');
+                    DateTime currentDate = DateTime.now();
+                    // log('${appointmentLog[index]['id']}');
+
+                    Duration duration = dateTime.difference(currentDate);
+                    if (duration.inDays < 0) {
+                      MyCloudStoreBase cloud = MyCloudStore();
+
+                      cloud
+                          .statusAppointment(
+                              appointmentLog[index]['id'], 'Completed')
+                          .onError((error, stackTrace) => Message.flutterToast(
+                              context, stackTrace.toString()));
+                    }
+                    // log(duration.inDays.toString());
+
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -146,28 +161,7 @@ class HistoryPage extends StatelessWidget {
                                   ),
                                   Column(
                                     children: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            MyCloudStoreBase cloud =
-                                                MyCloudStore();
-
-                                            cloud
-                                                .statusAppointment(
-                                                    appointmentLog[index]['id'])
-                                                .onError((error, stackTrace) =>
-                                                    Message.flutterToast(
-                                                        context,
-                                                        stackTrace.toString()))
-                                                .then((value) =>
-                                                    Message.flutterToastGreen(
-                                                      context,
-                                                      'Appointment Cancelled',
-                                                    ));
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red,
-                                          ),
-                                          child: const Text('Cancel'))
+                                      AppointmentButtonFunction(index, context)
                                     ],
                                   ),
                                 ],
@@ -188,5 +182,45 @@ class HistoryPage extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget AppointmentButtonFunction(int index, BuildContext context) {
+    if (appointmentLog[index]['Status'] == 'Up Coming') {
+      return ElevatedButton(
+          onPressed: () {
+            MyCloudStoreBase cloud = MyCloudStore();
+
+            cloud
+                .statusAppointment(appointmentLog[index]['id'], 'Cancelled')
+                .onError((error, stackTrace) =>
+                    Message.flutterToast(context, stackTrace.toString()))
+                .then((value) => Message.flutterToastGreen(
+                      context,
+                      'Appointment Cancelled',
+                    ));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+          ),
+          child: const Text('Cancel'));
+    }
+    ;
+    if (appointmentLog[index]['Status'] == 'Completed') {
+      return ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.green,
+          ),
+          child: const Text('Completed'));
+    }
+    if (appointmentLog[index]['Status'] == 'Cancelled') {
+      return ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orange,
+          ),
+          child: const Text('Cancelled'));
+    }
+    return const Text('                        ');
   }
 }

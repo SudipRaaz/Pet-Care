@@ -9,7 +9,7 @@ abstract class MyCloudStoreBase {
   Future bookAppointment(Appointment_Model book);
 
   // get user history information
-  Future statusAppointment(String docref);
+  Future statusAppointment(String docref, String status);
 
   // // get user information
   // Stream<DocumentSnapshot> getData(uid) {

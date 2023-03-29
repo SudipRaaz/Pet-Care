@@ -9,4 +9,9 @@ class TabManager extends ChangeNotifier {
     selectedTab = index;
     notifyListeners();
   }
+
+  // updating the tab
+  void updateSelectedTab(index) {
+    selectedTab = index;
+  }
 }

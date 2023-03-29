@@ -6,6 +6,11 @@ import 'package:pet_care/Controller/authentication_functions.dart';
 import 'package:pet_care/resource/constants/colors.dart';
 import 'package:pet_care/resource/constants/sized_box.dart';
 import 'package:pet_care/resource/constants/style.dart';
+import 'package:pet_care/utilities/routes/routes.dart';
+import 'package:pet_care/view/login_page.dart';
+import 'package:provider/provider.dart';
+
+import '../model/tab_manager.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -24,160 +29,166 @@ class ProfilePage extends StatelessWidget {
         .collection("Users")
         .doc(Authentication().currentUser?.uid)
         .get();
+    return Consumer<TabManager>(builder: (context, tabManager, child) {
+      return FutureBuilder(
+        future: _userStream,
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text("Something went wrong"));
+          }
 
-    return FutureBuilder(
-      future: _userStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return Center(child: Text("Document does not exist"));
+          }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return Text("Document does not exist");
-        }
-
-        if (snapshot.hasData) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          return Scaffold(
-            backgroundColor: Colors.black12,
-            appBar: AppBar(
-              title: const Text('Profile'),
-              backgroundColor: AppColors().appBar_theme,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  // evelated button
-                  child: ElevatedButton(
-                      // stylying button
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors().app_background,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50))),
-                      onPressed: () {
-                        // auth signout
-                        Authentication().signOut();
-                      },
-                      child: const Text(
-                        "Sign Out",
-                        style: TextStyle(color: Colors.black),
-                      )),
-                ),
-              ],
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+          if (snapshot.hasData) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return Scaffold(
+              backgroundColor: Colors.black12,
+              appBar: AppBar(
+                title: const Text('Profile'),
+                backgroundColor: AppColors().appBar_theme,
+                actions: [
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      height: _height * 0.16,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                              width: 130,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15)),
-                              child:
-                                  Image.asset('assets/images/profiePic.png')),
-                          addHorizontalSpace(10),
-                          Expanded(
-                            child: Text(
-                              'Hi, \n${data['PetOwnerName']}',
-                              style: MyStyle().heading2,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // pet details
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              // image details
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(15, 20, 0, 0),
-                                child: Container(
-                                    width: 150,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      boxShadow: const <BoxShadow>[
-                                        BoxShadow(
-                                            color: Colors.black54,
-                                            blurRadius: 15.0,
-                                            offset: Offset(0.0, 0.75))
-                                      ],
-                                    ),
-                                    child: petImage(data)),
-                              ),
-                              // pet name and type
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 12, 0, 12),
-                                child: Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data['PetName'],
-                                        style: MyStyle().heading1,
-                                      ),
-                                      displayBreed(data),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          addVerticalSpace(40),
-                          petTileWidget(
-                              width: _width,
-                              tileColor: tileColor,
-                              heading1: 'Gender',
-                              answer1: data['PetGender']),
-                          petTileWidget(
-                              width: _width,
-                              tileColor: tileColor,
-                              heading1: 'Age',
-                              answer1: '${data['Age']} Years'),
-                          petTileWidget(
-                              width: _width,
-                              tileColor: tileColor,
-                              heading1: 'Weight',
-                              answer1: '${data['PetWeight']} Kg'),
-                          addVerticalSpace(51)
-                        ],
-                      ),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    // evelated button
+                    child: ElevatedButton(
+                        // stylying button
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors().app_background,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50))),
+                        onPressed: () {
+                          tabManager.updateSelectedTab(0);
+                          // auth signout
+                          Authentication().signOut();
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return LoginScreen();
+                          }));
+                        },
+                        child: const Text(
+                          "Sign Out",
+                          style: TextStyle(color: Colors.black),
+                        )),
                   ),
                 ],
               ),
-            ),
-          );
-        }
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        height: _height * 0.16,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                                width: 130,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15)),
+                                child:
+                                    Image.asset('assets/images/profiePic.png')),
+                            addHorizontalSpace(10),
+                            Expanded(
+                              child: Text(
+                                'Hi, \n${data['PetOwnerName']}',
+                                style: MyStyle().heading2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // pet details
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                // image details
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(15, 20, 0, 0),
+                                  child: Container(
+                                      width: 150,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        boxShadow: const <BoxShadow>[
+                                          BoxShadow(
+                                              color: Colors.black54,
+                                              blurRadius: 15.0,
+                                              offset: Offset(0.0, 0.75))
+                                        ],
+                                      ),
+                                      child: petImage(data)),
+                                ),
+                                // pet name and type
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 12, 0, 12),
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data['PetName'],
+                                          style: MyStyle().heading1,
+                                        ),
+                                        displayBreed(data),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            addVerticalSpace(40),
+                            petTileWidget(
+                                width: _width,
+                                tileColor: tileColor,
+                                heading1: 'Gender',
+                                answer1: data['PetGender']),
+                            petTileWidget(
+                                width: _width,
+                                tileColor: tileColor,
+                                heading1: 'Age',
+                                answer1: '${data['Age']} Years'),
+                            petTileWidget(
+                                width: _width,
+                                tileColor: tileColor,
+                                heading1: 'Weight',
+                                answer1: '${data['PetWeight']} Kg'),
+                            addVerticalSpace(51)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+    });
   }
 
   Image petImage(data) {

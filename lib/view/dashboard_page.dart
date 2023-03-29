@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_care/resource/constants/sized_box.dart';
 import 'package:pet_care/utilities/routes/routes.dart';
 import '../resource/constants/colors.dart';
 import '../resource/constants/style.dart';
@@ -20,19 +21,26 @@ class _DashboardPageState extends State<DashboardPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: const Text('dashboard page'),
+          title: const Text('Dashboard Page'),
           backgroundColor: AppColors().appBar_theme,
         ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: _width,
-                height: _height * .3,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/promo.png'))),
+              addVerticalSpace(10),
+              Center(
+                child: Container(
+                  // clipBehavior: Clip.antiAlias,
+                  width: _width - 30,
+                  height: _height * .3,
+                  decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(25),
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/images/promo2.png'))),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 12, top: 20),

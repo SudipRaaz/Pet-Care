@@ -24,13 +24,13 @@ class MyCloudStore extends MyCloudStoreBase {
   }
 
   @override
-  Future statusAppointment(String docref) async {
+  Future statusAppointment(String docref, String status) async {
     final bookAppointment =
         FirebaseFirestore.instance.collection('Appointments').doc(docref);
 
     // wating for doc set josn object on firebase
     await bookAppointment.update(
-      {"Status": 'Cancelled'},
+      {"Status": '$status'},
     );
   }
 }
