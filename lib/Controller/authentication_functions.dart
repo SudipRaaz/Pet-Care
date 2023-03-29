@@ -17,7 +17,7 @@ class Authentication extends AuthenticationBase {
 
   @override
   Future createUserWithEmailAndPassword(BuildContext context,
-      Registration registrationDetails, String password) async {
+      Registration_Model registrationDetails, String password) async {
     try {
       final newUser = await _firebaseAuth.createUserWithEmailAndPassword(
           email: registrationDetails.email, password: password);

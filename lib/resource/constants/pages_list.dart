@@ -4,9 +4,5 @@ import 'package:pet_care/view/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 
 class PageLists {
-  static const List pages = <Widget>[
-    DashboardPage(),
-    HistoryPage(),
-    ProfilePage()
-  ];
+  static List pages = <Widget>[DashboardPage(), HistoryPage(), ProfilePage()];
 }

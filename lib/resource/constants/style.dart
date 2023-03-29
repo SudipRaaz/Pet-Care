@@ -23,8 +23,14 @@ class MyStyle {
   TextStyle heading2 =
       const TextStyle(fontSize: 25, fontWeight: FontWeight.w500);
   TextStyle heading3 =
-      const TextStyle(fontSize: 20, fontWeight: FontWeight.w300);
+      const TextStyle(fontSize: 20, fontWeight: FontWeight.w400);
+  TextStyle heading4 = const TextStyle(
+    fontSize: 18,
+  );
   //heading style
   TextStyle subText =
       const TextStyle(fontSize: 18, fontWeight: FontWeight.w400);
+  TextStyle subSubText = const TextStyle(
+    fontSize: 16,
+  );
 }

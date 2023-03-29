@@ -29,10 +29,10 @@ class PageLayout extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.medication_liquid_sharp,
+                  Icons.book_outlined,
                   size: 35,
                 ),
-                label: 'Medical',
+                label: 'Appointments',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

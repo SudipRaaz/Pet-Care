@@ -124,8 +124,7 @@ class ProfilePage extends StatelessWidget {
                                             offset: Offset(0.0, 0.75))
                                       ],
                                     ),
-                                    child:
-                                        Image.asset('assets/images/cat.png')),
+                                    child: petImage(data)),
                               ),
                               // pet name and type
                               Padding(
@@ -179,6 +178,15 @@ class ProfilePage extends StatelessWidget {
         );
       },
     );
+  }
+
+  Image petImage(data) {
+    if (data['DogBreed'] == 'Choose') {
+      return Image.asset('assets/images/cat.png');
+    } else if (data['CatBreed'] == 'Choose') {
+      return Image.asset('assets/images/dog.png');
+    }
+    return Image.asset('assets/images/dog.png');
   }
 
   Text displayBreed(data) {

@@ -338,7 +338,7 @@ class _RegisterState extends State<Register> {
                         context, "Accept to terms and conditions to proceed");
                   } else {
                     try {
-                      Registration registerDetails = Registration(
+                      Registration_Model registerDetails = Registration_Model(
                           petOwnerName: _nameController.text,
                           petName: _petNameController.text,
                           email: _emailController.text,

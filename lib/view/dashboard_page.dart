@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pet_care/utilities/routes/routes.dart';
 import '../resource/constants/colors.dart';
 import '../resource/constants/style.dart';
 
@@ -41,17 +43,37 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               Row(
                 children: [
-                  ServiceTile(_width, Icons.medical_services_outlined,
-                      'Medical Services'),
-                  ServiceTile(_width, Icons.cut_sharp, 'Grooming Services'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.serviceDesc);
+                    },
+                    child: ServiceTile(_width, Icons.medical_services_outlined,
+                        'Medical Services'),
+                  ),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, RoutesName.grooming);
+                      },
+                      child: ServiceTile(
+                          _width, Icons.cut_sharp, 'Grooming Services')),
                 ],
               ),
               Row(
                 children: [
-                  ServiceTile(_width, Icons.local_restaurant_outlined,
-                      'Diet Planning Services'),
-                  ServiceTile(
-                      _width, Icons.pets_outlined, ' Pet Walker Services'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.dietPlanning);
+                    },
+                    child: ServiceTile(_width, Icons.local_restaurant_outlined,
+                        'Diet Planning Services'),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.petWalker);
+                    },
+                    child: ServiceTile(
+                        _width, Icons.pets_outlined, ' Pet Walker Services'),
+                  ),
                 ],
               ),
             ],

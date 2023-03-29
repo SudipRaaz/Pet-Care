@@ -6,8 +6,8 @@ abstract class AuthenticationBase {
       BuildContext context, String email, String password);
 
   // create users with email and password
-  Future createUserWithEmailAndPassword(
-      BuildContext context, Registration registrationDetails, String password);
+  Future createUserWithEmailAndPassword(BuildContext context,
+      Registration_Model registrationDetails, String password);
 
   // signout method
   Future signOut();

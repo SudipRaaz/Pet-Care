@@ -4,13 +4,14 @@
 
 import 'dart:convert';
 
-Registration registrationFromJson(String str) =>
-    Registration.fromJson(json.decode(str));
+Registration_Model registrationFromJson(String str) =>
+    Registration_Model.fromJson(json.decode(str));
 
-String registrationToJson(Registration data) => json.encode(data.toJson());
+String registrationToJson(Registration_Model data) =>
+    json.encode(data.toJson());
 
-class Registration {
-  Registration({
+class Registration_Model {
+  Registration_Model({
     required this.petOwnerName,
     required this.email,
     required this.petName,
@@ -32,7 +33,8 @@ class Registration {
   int age;
   double petWeight;
 
-  factory Registration.fromJson(Map<String, dynamic> json) => Registration(
+  factory Registration_Model.fromJson(Map<String, dynamic> json) =>
+      Registration_Model(
         petOwnerName: json["PetOwnerName"],
         email: json["Email"],
         petName: json["PetName"],
