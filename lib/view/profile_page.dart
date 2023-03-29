@@ -156,7 +156,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            addVerticalSpace(40),
+                            addVerticalSpace(20),
                             petTileWidget(
                                 width: _width,
                                 tileColor: tileColor,
@@ -172,7 +172,7 @@ class ProfilePage extends StatelessWidget {
                                 tileColor: tileColor,
                                 heading1: 'Weight',
                                 answer1: '${data['PetWeight']} Kg'),
-                            addVerticalSpace(51)
+                            addVerticalSpace(10)
                           ],
                         ),
                       ),
@@ -203,12 +203,12 @@ class ProfilePage extends StatelessWidget {
   Text displayBreed(data) {
     if (data['DogBreed'] == 'Choose') {
       return Text(
-        'Breed: ${data['CatBreed']}',
+        '${data['CatBreed']}',
         style: MyStyle().subText,
       );
     } else if (data['CatBreed'] == 'Choose') {
       return Text(
-        'Breed: ${data['DogBreed']}',
+        '${data['DogBreed']}',
         style: MyStyle().subText,
       );
     }

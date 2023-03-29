@@ -282,7 +282,7 @@ class _RegisterState extends State<Register> {
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              label: Text("Pet's Weight"),
+                              label: Text("Pet's Weight (In Kg)"),
                               prefixIcon: Icon(Icons.monitor_weight_outlined),
                             ),
                             // requesting for password field focus
@@ -333,6 +333,38 @@ class _RegisterState extends State<Register> {
                     Message.flushBarErrorMessage(
                         context, "Password must be at least 6 digits");
                     // checking if user agrees to terms and conditions of application
+                  }
+                  // checking for pet name validation
+                  else if (_petNameController.text.length < 2) {
+                    Message.flushBarErrorMessage(
+                        context, "Enter a valid Pet Name");
+                    // checking if user agrees to terms and conditions of application
+                  }
+                  // checking for breed name validation
+                  else if (petType == 'choose your pet type') {
+                    Message.flushBarErrorMessage(
+                        context, "Choose your pet Type");
+                    // checking if user agrees to terms and conditions of application
+                  }
+                  // checking for breed name validation
+                  else if (dogBreed == 'Choose' && catBreed == 'Choose') {
+                    Message.flushBarErrorMessage(
+                        context, "Choose your pet Breed");
+                    // checking if user agrees to terms and conditions of application
+                  }
+                  // checking for gender selection
+                  else if (_gender == '') {
+                    Message.flushBarErrorMessage(
+                        context, "Choose your Pet's gender");
+                    // checking if user agrees to terms and conditions of application
+                  }
+                  // checking for weight
+                  else if (_weightController.text.isEmpty) {
+                    Message.flushBarErrorMessage(
+                        context, "Enter a valid Pet weight");
+                    // checking if user agrees to terms and conditions of application
+
+                    // checking if user agrees to terms and conditions of application
                   } else if (!_checkBoxValue) {
                     Message.flushBarErrorMessage(
                         context, "Accept to terms and conditions to proceed");
@@ -351,11 +383,16 @@ class _RegisterState extends State<Register> {
 
                       // saving the data onto cloud firestore database
                       AuthenticationBase auth = Authentication();
-                      auth.createUserWithEmailAndPassword(
-                        context,
-                        registerDetails,
-                        _passwordController.text.trim(),
-                      );
+                      auth
+                          .createUserWithEmailAndPassword(
+                            context,
+                            registerDetails,
+                            _passwordController.text.trim(),
+                          )
+                          .then((value) => Message.flutterToastGreen(
+                              context, "Registered Successfully"))
+                          .onError((error, stackTrace) => Message.flutterToast(
+                              context, stackTrace.toString()));
                       Navigator.pop(context);
                       // catch any exceptions occured
                     } catch (e) {
