@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_care/Controller/authentication_base.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:pet_care/model/registration_model.dart';
-
 import '../utilities/InfoDisplay/message.dart';
 import 'cloud_firestore.dart';
 import 'cloud_firestore_base.dart';

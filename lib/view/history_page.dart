@@ -65,6 +65,15 @@ class HistoryPage extends StatelessWidget {
                     // log('${appointmentLog[index]['id']}');
 
                     Duration duration = dateTime.difference(currentDate);
+                    if (duration.inDays == 0) {
+                      MyCloudStoreBase cloud = MyCloudStore();
+
+                      cloud
+                          .statusAppointment(
+                              appointmentLog[index]['id'], 'Today')
+                          .onError((error, stackTrace) => Message.flutterToast(
+                              context, stackTrace.toString()));
+                    }
                     if (duration.inDays < 0) {
                       MyCloudStoreBase cloud = MyCloudStore();
 
