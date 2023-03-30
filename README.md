@@ -1,16 +1,14 @@
 # pet_care
+![dashboard](https://user-images.githubusercontent.com/79494510/228826782-f8b700e1-659a-4aae-a99b-6e8b782b07d8.png)
 
-A new Flutter project.
+![service page](https://user-images.githubusercontent.com/79494510/228826795-75c0276b-12ab-4314-a35e-f9089620b1c1.png)
 
-## Getting Started
+![service page 2](https://user-images.githubusercontent.com/79494510/228826801-634c76e4-9e41-4fd9-8449-4fd604ef5a0e.png)
 
-This project is a starting point for a Flutter application.
+![appointment page](https://user-images.githubusercontent.com/79494510/228826834-6d4eed44-0537-4021-85ba-8e093738338d.png)
 
-A few resources to get you started if this is your first Flutter project:
+![appointments page](https://user-images.githubusercontent.com/79494510/228826855-123ba010-ca66-4e6f-a2b3-a5a0870a097a.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![profile page](https://user-images.githubusercontent.com/79494510/228826876-5a349af3-d4f0-42eb-9023-ba5e8c2ecd00.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+It is a mobile based pet care application for users to book appointment with gromming, medical, diet planning, and pet walker services.
